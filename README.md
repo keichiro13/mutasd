@@ -1,6 +1,6 @@
 # Mutasd! – Képes activity gyerekeknek
 
-Magyar nyelvű, mobilon és számítógépen használható egyoldalas játék. 83 kártya: 24 állat, 13 foglalkozás (köztük balerina), 14 jármű és 32 hétköznapi tárgy, képes kártyák, egykattintásos húzás, Állatok / Foglalkozások / Járművek / Hétköznapi tárgyak / Minden témaválasztó. A pakli csak akkor keveredik újra, ha minden kártyát kihúztatok. A kártyára kattintva vagy a szóközzel is lehet húzni.
+Magyar nyelvű, mobilon és számítógépen használható egyoldalas játék. 93 kártya: 28 állat, 14 foglalkozás (köztük balerina és boltos), 14 jármű és 37 hétköznapi tárgy, képes kártyák, egykattintásos húzás, Állatok / Foglalkozások / Járművek / Hétköznapi tárgyak / Minden témaválasztó. A pakli csak akkor keveredik újra, ha minden kártyát kihúztatok. A kártyára kattintva vagy a szóközzel is lehet húzni.
 
 ## Használat
 
@@ -25,3 +25,5 @@ Twemoji v17.0.2, https://github.com/jdecked/twemoji/tree/v17.0.2/assets/svg
 ## Nehézség
 
 Minden témához választható Könnyű, Nehezebb vagy Vegyes pakli. Alapértelmezés: Vegyes. A Nehezebb pakli több képzelőerőt igénylő feladványokat tartalmaz; a besorolás játékos ajánlás. A balerinát balettcipő jelképezi. A témaváltás és nehézségváltás új paklit kezd, és rögtön húz egy hozzá illő lapot.
+
+A clothespin.svg (ruhacsipesz), drawer.svg, shopkeeper.svg és firefighter.svg saját, a játékhoz készült SVG-illusztrációk, nem Twemoji-képek.
