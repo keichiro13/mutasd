@@ -2,3 +2,5 @@
 
 .themes{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.themes button{padding:10px 14px;font-size:12px;flex:1 0 auto}.themes button:last-child{flex-grow:0}@media(max-width:680px){.themes button{padding:10px 12px;font-size:11px}}
 
+
+.difficulty-picker{margin-top:-10px;margin-bottom:24px}.difficulties{background:transparent;border:1px solid #deddd0}.difficulties button{flex:1;padding:9px 12px}.difficulties button:last-child{flex-grow:1}.difficulty-note{font-size:10px;line-height:1.5;color:#7b8276;margin:9px 0 0}@media(max-width:680px){.difficulty-note{font-size:9px}}

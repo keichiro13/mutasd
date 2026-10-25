@@ -9,22 +9,33 @@ const vehicles = [
   ['Autó','1f697'],['Repülő','2708'],['Vonat','1f682'],['Bicikli','1f6b2'],['Rakéta','1f680'],['Roller','1f6f4'],['Busz','1f68c'],['Mentőautó','1f691'],['Tűzoltóautó','1f692'],['Rendőrautó','1f693'],['Traktor','1f69c'],['Helikopter','1f681'],['Vitorlás','26f5'],['Motor','1f3cd']
 ].map(([name,image]) => ({name,image,category:'Jármű'}));
 const jobs = [
-  ['Tűzoltó','1f9d1-200d-1f692'],['Szakács','1f9d1-200d-1f373'],['Orvos','1f9d1-200d-2695-fe0f'],['Tanár','1f9d1-200d-1f3eb'],['Rendőr','1f46e'],['Építőmunkás','1f477'],['Kertész','1f9d1-200d-1f33e'],['Festő','1f9d1-200d-1f3a8'],['Énekes','1f9d1-200d-1f3a4'],['Szerelő','1f9d1-200d-1f527'],['Űrhajós','1f9d1-200d-1f680'],['Pilóta','1f9d1-200d-2708-fe0f']
+  ['Tűzoltó','1f9d1-200d-1f692'],['Szakács','1f9d1-200d-1f373'],['Orvos','1f9d1-200d-2695-fe0f'],['Tanár','1f9d1-200d-1f3eb'],['Rendőr','1f46e'],['Építőmunkás','1f477'],['Kertész','1f9d1-200d-1f33e'],['Festő','1f9d1-200d-1f3a8'],['Énekes','1f9d1-200d-1f3a4'],['Szerelő','1f9d1-200d-1f527'],['Űrhajós','1f9d1-200d-1f680'],['Pilóta','1f9d1-200d-2708-fe0f'],['Balerina','1fa70']
 ].map(([name,image]) => ({name,image,category:'Foglalkozás'}));
+objects.push(...[
+  ['Hőmérő','1f321'],['Iránytű','1f9ed'],['Mágnes','1f9f2'],['Mikroszkóp','1f52c'],['Távcső','1f52d'],['Golyós számoló','1f9ee'],['Gémkapocs','1f4ce'],['Biztosítótű','1f9f7'],['Szivacs','1f9fd'],['Gyertya','1f56f'],['Elem','1f50b'],['Műholdvevő antenna','1f4e1']
+].map(([name,image]) => ({name,image,category:'Hétköznapi tárgy',difficulty:'hard'})));
+const harderNames = new Set(['Süni','Sas','Rák','Méhecske','Teknős','Zsiráf','Óra','Kulcs','Ecset','Szemüveg','Táska','Horgászbot','Mentőautó','Rendőrautó','Traktor','Helikopter','Vitorlás','Rakéta','Tanár','Építőmunkás','Kertész','Szerelő','Űrhajós','Pilóta']);
+for (const card of [...animals, ...jobs, ...vehicles, ...objects]) {
+  card.difficulty ??= harderNames.has(card.name) ? 'hard' : 'easy';
+}
 const packs = { animals, jobs, vehicles, objects, all: [...animals, ...jobs, ...vehicles, ...objects] };
 let theme = 'all';
+let difficulty = 'mixed';
+function selectedCards() {
+  return packs[theme].filter(card => difficulty === 'mixed' || card.difficulty === difficulty);
+}
 let deck = [];
 let current = null;
 let drawn = 0;
 const $ = id => document.getElementById(id);
 function refill() {
-  deck = [...packs[theme]];
+  deck = [...selectedCards()];
   for (let i = deck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
   // A new shuffled pack must not repeat the very last card immediately.
-  if (current && deck.at(-1).name === current.name) [deck[0], deck[deck.length - 1]] = [deck.at(-1), deck[0]];
+  if (current && deck.length > 1 && deck.at(-1).name === current.name) [deck[0], deck[deck.length - 1]] = [deck.at(-1), deck[0]];
   drawn = 0;
 }
 function draw() {
@@ -35,9 +46,9 @@ function draw() {
   $('picture').alt = current.name;
   $('category').textContent = current.category.toLocaleUpperCase('hu-HU');
   $('name').textContent = current.name;
-  $('hint').textContent = 'Vajon kitalálják a többiek?';
+  $('hint').textContent = current.difficulty === 'hard' ? '✦ Nehezebb · Gondolkodj, aztán mutasd!' : '✧ Könnyű · Vajon kitalálják a többiek?';
   $('draw').firstElementChild.textContent = 'Jöhet a következő!';
-  $('progress').textContent = `${drawn} / ${packs[theme].length} kártya a pakliból`;
+  $('progress').textContent = `${drawn} / ${selectedCards().length} kártya a pakliból`;
   $('announcement').textContent = `${current.category}: ${current.name}. Mutogasd el!`;
   $('card').classList.remove('pop');
   void $('card').offsetWidth;
@@ -47,6 +58,13 @@ document.querySelectorAll('[data-theme]').forEach(button => button.addEventListe
   if (theme === button.dataset.theme) return;
   theme = button.dataset.theme;
   document.querySelectorAll('[data-theme]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+  refill();
+  draw();
+}));
+document.querySelectorAll('[data-difficulty]').forEach(button => button.addEventListener('click', () => {
+  if (difficulty === button.dataset.difficulty) return;
+  difficulty = button.dataset.difficulty;
+  document.querySelectorAll('[data-difficulty]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
   refill();
   draw();
 }));
